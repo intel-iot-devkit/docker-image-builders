@@ -1,0 +1,45 @@
+#!/bin/bash
+
+echo "DOCKER_REPO=${DOCKER_REPO}"
+echo "IMAGE_NAME=${IMAGE_NAME}"
+echo "PWD=$(pwd)"
+
+if [[ $DOCKER_REPO == *"upm-base"* ]]; then
+  echo "Building upm-base"
+  docker build --file Dockerfile.base --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"upm-python"* ]]; then
+  echo "Building upm-python"
+  docker build --file Dockerfile.python --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"upm-java"* ]]; then
+  echo "Building upm-java"
+  docker build --file Dockerfile.java --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"upm-android"* ]]; then
+  echo "Building upm-android"
+  docker build --file Dockerfile.android --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"upm-node4"* ]]; then
+  echo "Building upm-node4"
+  docker build --file Dockerfile.node --build-arg NODE_VERSION=v4.4.7 --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"upm-node5"* ]]; then
+  echo "Building upm-node5"
+  docker build --file Dockerfile.node --build-arg NODE_VERSION=v5.12.0 --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"upm-node6"* ]]; then
+  echo "Building upm-node6"
+  docker build --file Dockerfile.node --build-arg NODE_VERSION=v6.11.0 --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"upm-all"* ]]; then
+  echo "Building upm-all"
+  docker build --file Dockerfile.all --build-arg NODE_VERSION=v6.11.0 --tag $IMAGE_NAME .
+fi

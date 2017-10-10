@@ -1,0 +1,45 @@
+#!/bin/bash
+
+echo "DOCKER_REPO=${DOCKER_REPO}"
+echo "IMAGE_NAME=${IMAGE_NAME}"
+echo "PWD=$(pwd)"
+
+if [[ $DOCKER_REPO == *"mraa-base"* ]]; then
+  echo "Building mraa-base"
+  docker build --file Dockerfile.base --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"mraa-python"* ]]; then
+  echo "Building mraa-python"
+  docker build --file Dockerfile.python --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"mraa-java"* ]]; then
+  echo "Building mraa-java"
+  docker build --file Dockerfile.java --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"mraa-android"* ]]; then
+  echo "Building mraa-android"
+  docker build --file Dockerfile.android --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"mraa-node4"* ]]; then
+  echo "Building mraa-node4"
+  docker build --file Dockerfile.node --build-arg NODE_VERSION=v4.4.7 --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"mraa-node5"* ]]; then
+  echo "Building mraa-node5"
+  docker build --file Dockerfile.node --build-arg NODE_VERSION=v5.12.0 --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"mraa-node6"* ]]; then
+  echo "Building mraa-node6"
+  docker build --file Dockerfile.node --build-arg NODE_VERSION=v6.11.0 --tag $IMAGE_NAME .
+fi
+
+if [[ $DOCKER_REPO == *"mraa-all"* ]]; then
+  echo "Building mraa-all"
+  docker build --file Dockerfile.all --build-arg NODE_VERSION=v6.11.0 --tag $IMAGE_NAME .
+fi
