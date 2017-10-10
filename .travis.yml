@@ -1,0 +1,82 @@
+dist: trusty
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/1.9.0/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+jobs:
+  include:
+    - &build-mraa-base-image
+      stage: Build mraa-base image
+      env: TARGET=mraa-base
+      script:
+        - docker-compose build ${TARGET}
+        - docker tag ${DOCKER_USERNAME}/${TARGET} ${DOCKER_USERNAME}/${TARGET}:${TRAVIS_BRANCH}
+      before_deploy: docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
+      deploy:
+        - provider: script
+          script: docker push ${DOCKER_USERNAME}/${TARGET}:${TRAVIS_BRANCH}
+          on:
+            all_branches: true
+        - provider: script
+          script: docker push ${DOCKER_USERNAME}/${TARGET}
+          on:
+            branch: master
+    - &build-mraa-image
+      <<: *build-mraa-base-image
+      stage: Build mraa images
+      env: TARGET=mraa-python
+      before_script:
+        - BASE_IMAGE_TAG="${TRAVIS_BRANCH}"
+        - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then BASE_IMAGE_TAG="${TRAVIS_PULL_REQUEST_BRANCH}"; fi
+        - docker pull ${DOCKER_USERNAME}/mraa-base:${BASE_IMAGE_TAG}
+        - docker tag ${DOCKER_USERNAME}/mraa-base:${BASE_IMAGE_TAG} ${DOCKER_USERNAME}/mraa-base
+      script:
+        - docker-compose build ${TARGET}
+        - docker tag ${DOCKER_USERNAME}/${TARGET} ${DOCKER_USERNAME}/${TARGET}:${TRAVIS_BRANCH}
+    - <<: *build-mraa-image
+      env: TARGET=mraa-java
+    - <<: *build-mraa-image
+      env: TARGET=mraa-android
+    - <<: *build-mraa-image
+      env: TARGET=mraa-node4
+    - <<: *build-mraa-image
+      env: TARGET=mraa-node5
+    - <<: *build-mraa-image
+      env: TARGET=mraa-node6
+    - <<: *build-mraa-image
+      env: TARGET=mraa-all
+    - &build-upm-base-image
+      <<: *build-mraa-base-image
+      stage: Build upm-base image
+      env: TARGET=upm-base
+    - &build-upm-image
+      <<: *build-upm-base-image
+      stage: Build upm images
+      env: TARGET=upm-python
+      before_script:
+        - BASE_IMAGE_TAG="${TRAVIS_BRANCH}"
+        - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then BASE_IMAGE_TAG="${TRAVIS_PULL_REQUEST_BRANCH}"; fi
+        - docker pull ${DOCKER_USERNAME}/upm-base:${BASE_IMAGE_TAG}
+        - docker tag ${DOCKER_USERNAME}/upm-base:${BASE_IMAGE_TAG} ${DOCKER_USERNAME}/upm-base
+      script:
+        - docker-compose build ${TARGET}
+        - docker tag ${DOCKER_USERNAME}/${TARGET} ${DOCKER_USERNAME}/${TARGET}:${TRAVIS_BRANCH}
+    - <<: *build-upm-image
+      env: TARGET=upm-java
+    - <<: *build-upm-image
+      env: TARGET=upm-android
+    - <<: *build-upm-image
+      env: TARGET=upm-node4
+    - <<: *build-upm-image
+      env: TARGET=upm-node5
+    - <<: *build-upm-image
+      env: TARGET=upm-node6
+    - <<: *build-upm-image
+      env: TARGET=upm-all

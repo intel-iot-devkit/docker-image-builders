@@ -1,0 +1,129 @@
+version: '2.1'
+
+services:
+
+  mraa-base:
+    image: inteliotdevkit/mraa-base
+    build:
+      context: .
+      dockerfile: mraa/Dockerfile.base
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    environment:
+      - http_proxy
+      - https_proxy
+      - no_proxy
+
+  mraa-python:
+    extends: mraa-base
+    image: inteliotdevkit/mraa-python
+    build:
+      dockerfile: mraa/Dockerfile.python
+
+  mraa-java:
+    extends: mraa-base
+    image: inteliotdevkit/mraa-java
+    build:
+      dockerfile: mraa/Dockerfile.java
+
+  mraa-android:
+    extends: mraa-base
+    image: inteliotdevkit/mraa-android
+    build:
+      dockerfile: mraa/Dockerfile.android
+
+  mraa-node4:
+    extends: mraa-base
+    image: inteliotdevkit/mraa-node4
+    build:
+      dockerfile: mraa/Dockerfile.node
+      args:
+         - NODE_VERSION=v4.4.7
+
+  mraa-node5:
+    extends: mraa-node4
+    image: inteliotdevkit/mraa-node5
+    build:
+      args:
+        - NODE_VERSION=v5.12.0
+
+  mraa-node6:
+    extends: mraa-node4
+    image: inteliotdevkit/mraa-node6
+    build:
+      args:
+        - NODE_VERSION=v6.11.0
+
+  mraa-all:
+    extends: mraa-base
+    image: inteliotdevkit/mraa-all
+    build:
+      dockerfile: mraa/Dockerfile.all
+      args:
+        - NODE_VERSION=v5.12.0
+
+  upm-base:
+    image: inteliotdevkit/upm-base
+    build:
+      context: .
+      dockerfile: upm/Dockerfile.base
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    environment:
+      - http_proxy
+      - https_proxy
+      - no_proxy
+
+  upm-python:
+    extends: upm-base
+    image: inteliotdevkit/upm-python
+    build:
+      dockerfile: upm/Dockerfile.python
+
+  upm-java:
+    extends: upm-base
+    image: inteliotdevkit/upm-java
+    build:
+      dockerfile: upm/Dockerfile.java
+
+  upm-android:
+    extends: upm-base
+    image: inteliotdevkit/upm-android
+    build:
+      dockerfile: upm/Dockerfile.android
+      args:
+        - NODE_VERSION=v6.11.0
+
+  upm-node4:
+    extends: upm-base
+    image: inteliotdevkit/upm-node4
+    build:
+      dockerfile: upm/Dockerfile.node
+      args:
+         - NODE_VERSION=v4.4.7
+
+  upm-node5:
+    extends: upm-node4
+    image: inteliotdevkit/upm-node5
+    build:
+      args:
+        - NODE_VERSION=v5.12.0
+
+  upm-node6:
+    extends: upm-node4
+    image: inteliotdevkit/upm-node6
+    build:
+      args:
+        - NODE_VERSION=v6.11.0
+
+  upm-all:
+    extends: upm-base
+    image: inteliotdevkit/upm-all
+    build:
+      dockerfile: upm/Dockerfile.all
+      args:
+        - NODE_VERSION=v5.12.0
