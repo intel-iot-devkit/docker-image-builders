@@ -17,15 +17,15 @@ jobs:
       env: TARGET=mraa-base
       script:
         - docker-compose build ${TARGET}
-        - docker tag ${DOCKER_USERNAME}/${TARGET} ${DOCKER_USERNAME}/${TARGET}:${TRAVIS_BRANCH}
+        - docker tag ${DOCKER_ORGANIZATION}/${TARGET} ${DOCKER_ORGANIZATION}/${TARGET}:${TRAVIS_BRANCH}
       before_deploy: docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
       deploy:
         - provider: script
-          script: docker push ${DOCKER_USERNAME}/${TARGET}:${TRAVIS_BRANCH}
+          script: docker push ${DOCKER_ORGANIZATION}/${TARGET}:${TRAVIS_BRANCH}
           on:
             all_branches: true
         - provider: script
-          script: docker push ${DOCKER_USERNAME}/${TARGET}
+          script: docker push ${DOCKER_ORGANIZATION}/${TARGET}
           on:
             branch: master
     - &build-mraa-image
@@ -35,11 +35,11 @@ jobs:
       before_script:
         - BASE_IMAGE_TAG="${TRAVIS_BRANCH}"
         - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then BASE_IMAGE_TAG="${TRAVIS_PULL_REQUEST_BRANCH}"; fi
-        - docker pull ${DOCKER_USERNAME}/mraa-base:${BASE_IMAGE_TAG}
-        - docker tag ${DOCKER_USERNAME}/mraa-base:${BASE_IMAGE_TAG} ${DOCKER_USERNAME}/mraa-base
+        - docker pull ${DOCKER_ORGANIZATION}/mraa-base:${BASE_IMAGE_TAG}
+        - docker tag ${DOCKER_ORGANIZATION}/mraa-base:${BASE_IMAGE_TAG} ${DOCKER_ORGANIZATION}/mraa-base
       script:
         - docker-compose build ${TARGET}
-        - docker tag ${DOCKER_USERNAME}/${TARGET} ${DOCKER_USERNAME}/${TARGET}:${TRAVIS_BRANCH}
+        - docker tag ${DOCKER_ORGANIZATION}/${TARGET} ${DOCKER_ORGANIZATION}/${TARGET}:${TRAVIS_BRANCH}
     - <<: *build-mraa-image
       env: TARGET=mraa-java
     - <<: *build-mraa-image
@@ -63,11 +63,11 @@ jobs:
       before_script:
         - BASE_IMAGE_TAG="${TRAVIS_BRANCH}"
         - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then BASE_IMAGE_TAG="${TRAVIS_PULL_REQUEST_BRANCH}"; fi
-        - docker pull ${DOCKER_USERNAME}/upm-base:${BASE_IMAGE_TAG}
-        - docker tag ${DOCKER_USERNAME}/upm-base:${BASE_IMAGE_TAG} ${DOCKER_USERNAME}/upm-base
+        - docker pull ${DOCKER_ORGANIZATION}/upm-base:${BASE_IMAGE_TAG}
+        - docker tag ${DOCKER_ORGANIZATION}/upm-base:${BASE_IMAGE_TAG} ${DOCKER_ORGANIZATION}/upm-base
       script:
         - docker-compose build ${TARGET}
-        - docker tag ${DOCKER_USERNAME}/${TARGET} ${DOCKER_USERNAME}/${TARGET}:${TRAVIS_BRANCH}
+        - docker tag ${DOCKER_ORGANIZATION}/${TARGET} ${DOCKER_ORGANIZATION}/${TARGET}:${TRAVIS_BRANCH}
     - <<: *build-upm-image
       env: TARGET=upm-java
     - <<: *build-upm-image
