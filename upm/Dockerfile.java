@@ -17,6 +17,8 @@ RUN cd /opt/mraa && \
     -DBUILDSWIGPYTHON=OFF \
     -DBUILDSWIGNODE=OFF \
     -DBUILDSWIGJAVA=ON \
+    -DIMRAA=ON \
+    -DFIRMATA=ON \
     -Bbuild \
     -H. && \
   make -Cbuild install && \
