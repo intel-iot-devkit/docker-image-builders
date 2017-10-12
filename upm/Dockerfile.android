@@ -59,6 +59,8 @@ RUN cd /opt/mraa && \
       -DBUILDSWIGPYTHON=OFF \
       -DBUILDSWIGNODE=OFF \
       -DBUILDSWIGJAVA=ON \
+      -DIMRAA=ON \
+      -DFIRMATA=ON \
       -H. \
       -Bbuild && \
     make -j8 -Cbuild install
