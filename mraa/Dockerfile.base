@@ -25,6 +25,16 @@ RUN add-apt-repository ppa:ubuntu-toolchain-r/test && \
     apt-get update && \
     apt-get -y --no-install-recommends install gcc-6 g++-6
 
+# Install Google Test for unit testing
+ARG GTEST_VERSION=1.8.0
+RUN wget https://github.com/google/googletest/archive/release-$GTEST_VERSION.tar.gz && \
+    tar xf release-$GTEST_VERSION.tar.gz && cd googletest-release-$GTEST_VERSION && \
+    cmake -DBUILD_SHARED_LIBS=ON . && \
+    make -j8 && \
+    cp -a googletest/include/gtest /usr/include && \
+    cp -a googlemock/gtest/libgtest.so googlemock/gtest/libgtest_main.so /usr/lib/ && \
+    ldconfig
+
 # Set library download folder to /opt
 WORKDIR /opt
 
