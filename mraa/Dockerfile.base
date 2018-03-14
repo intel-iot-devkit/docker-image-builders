@@ -10,9 +10,9 @@ RUN apt-get -y update && \
     apt-get -y --no-install-recommends install software-properties-common && \
     # Main Build Dependencies
     apt-get -y --no-install-recommends install \
-    build-essential cmake clang-3.8 gcc-4.8 g++-4.8 gcc-5 g++-5 python \
+    build-essential cmake swig clang-3.8 gcc-4.8 g++-4.8 gcc-5 g++-5 python \
     # Additional Tools
-    git wget ca-certificates libpcre3 libpcre3-dev unzip \
+    git wget ca-certificates unzip \
     # Docs Build Dependencies
     doxygen graphviz \
     # Json Platform Build Dependencies
@@ -37,13 +37,6 @@ RUN wget https://github.com/google/googletest/archive/release-$GTEST_VERSION.tar
 
 # Set library download folder to /opt
 WORKDIR /opt
-
-# Swig Build Dependencies
-ARG SWIG_VERSION=3.0.10
-RUN wget -q http://iotdk.intel.com/misc/tr/swig-$SWIG_VERSION.tar.gz && \
-    tar xf swig-$SWIG_VERSION.tar.gz && cd swig-$SWIG_VERSION && \
-    ./configure --prefix=/usr/ && make -j8 && make -j8 install && cd .. && \
-    rm -fr /opt/swig-$SWIG_VERSION.tar.gz
 
 # FTDI4222 Build Dependencies
 ARG FTDI4222_VERSION=linux-1.3.1.117
