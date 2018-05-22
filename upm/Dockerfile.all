@@ -44,7 +44,7 @@ RUN . $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use $NODE_VERSION && \
     node-gyp install
 ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 
-# Install Mraa with Python, Java, and Node.js Support
+# Install Mraa with Python, Java, and Node.js Support as a MOCK platform
 RUN cd /opt/mraa && \
   cmake \
     -DCMAKE_INSTALL_PREFIX=install \
@@ -54,6 +54,7 @@ RUN cd /opt/mraa && \
     -DBUILDSWIGJAVA=ON \
     -DIMRAA=ON \
     -DFIRMATA=ON \
+    -DBUILDARCH=MOCK \
     -Bbuild \
     -H. && \
   make -Cbuild install && \

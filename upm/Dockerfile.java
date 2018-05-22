@@ -19,6 +19,7 @@ RUN cd /opt/mraa && \
     -DBUILDSWIGJAVA=ON \
     -DIMRAA=ON \
     -DFIRMATA=ON \
+    -DBUILDARCH=MOCK \
     -Bbuild \
     -H. && \
   make -Cbuild install && \
