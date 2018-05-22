@@ -92,6 +92,7 @@ RUN git clone https://github.com/intel-iot-devkit/mraa.git && \
     -DIMRAA=ON \
     -DFIRMATA=ON \
     -DBUILDSWIG=OFF \
+    -DBUILDARCH=MOCK \
     -Bbuild \
     -H. && \
   make -Cbuild install && \
