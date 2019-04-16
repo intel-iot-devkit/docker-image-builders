@@ -4,7 +4,7 @@ FROM inteliotdevkit/upm-base
 ENV SONAR_DIR /opt/sonar
 ENV SONAR_VER "3.0.3.778"
 WORKDIR $SONAR_DIR
-RUN wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_VER}-linux.zip && \
+RUN wget https://dl.bintray.com/sonarsource/SonarQube/org/sonarsource/scanner/cli/sonar-scanner-cli/${SONAR_VER}/sonar-scanner-cli-${SONAR_VER}-linux.zip && \
     wget https://sonarqube.com/static/cpp/build-wrapper-linux-x86.zip && \
     unzip sonar-scanner-cli-${SONAR_VER}-linux.zip && \
     unzip build-wrapper-linux-x86.zip && \
