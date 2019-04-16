@@ -78,6 +78,12 @@ services:
       - https_proxy
       - no_proxy
 
+  upm-sonar:
+    extends: upm-base
+    image: inteliotdevkit/upm-sonar
+    build:
+      dockerfile: upm/Dockerfile.sonar
+
   upm-python:
     extends: upm-base
     image: inteliotdevkit/upm-python

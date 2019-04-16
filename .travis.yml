@@ -59,6 +59,8 @@ jobs:
     - &build-upm-image
       <<: *build-upm-base-image
       stage: Build upm images
+      env: TARGET=upm-sonar
+    - <<: *build-upm-image
       env: TARGET=upm-python
       before_script:
         - BASE_IMAGE_TAG="${TRAVIS_BRANCH}"

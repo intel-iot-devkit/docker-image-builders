@@ -9,6 +9,11 @@ if [[ $DOCKER_REPO == *"upm-base"* ]]; then
   docker build --file Dockerfile.base --tag $IMAGE_NAME .
 fi
 
+if [[ $DOCKER_REPO == *"upm-sonar"* ]]; then
+  echo "Building upm-sonar"
+  docker build --file Dockerfile.sonar --tag $IMAGE_NAME .
+fi
+
 if [[ $DOCKER_REPO == *"upm-python"* ]]; then
   echo "Building upm-python"
   docker build --file Dockerfile.python --tag $IMAGE_NAME .
