@@ -78,13 +78,13 @@ RUN wget http://libmodbus.org/releases/libmodbus-$MODBUS_VERSION.tar.gz && \
 
 # Install openzwave
 ARG OPENZWAVE_VERSION=V1.5
-RUN apt-get update && apt-get -y --no-install-recommends install libudev-dev && \
+RUN apt-get -y --no-install-recommends install libudev-dev && \
     git clone --branch $OPENZWAVE_VERSION --depth 1 https://github.com/OpenZWave/open-zwave.git && \
     cd open-zwave && make -j8 install && \
     echo "/usr/local/lib64" >> /etc/ld.so.conf.d/openzwave.conf
 
 # Clone Mraa Repository and install it
-RUN apt-get update && apt-get -y --no-install-recommends install libjson-c-dev
+RUN apt-get -y --no-install-recommends install libjson-c-dev
 RUN git clone https://github.com/intel-iot-devkit/mraa.git && \
   cd mraa && \
   cmake \
@@ -100,6 +100,20 @@ RUN git clone https://github.com/intel-iot-devkit/mraa.git && \
 ENV MRAA_INSTALL_DIR /opt/mraa/install
 ENV PKG_CONFIG_PATH $MRAA_INSTALL_DIR/lib/pkgconfig/:$PKG_CONFIG_PATH
 ENV LD_LIBRARY_PATH $MRAA_INSTALL_DIR/lib/:$LD_LIBRARY_PATH
+
+# Clone TinyB Repository and install it
+RUN apt-get -y --no-install-recommends install libglib2.0-dev
+RUN git clone https://github.com/intel-iot-devkit/tinyb.git && \
+  cd tinyb && \
+  cmake \
+    -DCMAKE_INSTALL_PREFIX=install \
+    -Bbuild \
+    -H. && \
+  make -Cbuild install && \
+  rm -fr build
+ENV TINYB_INSTALL_DIR /opt/tinyb/install
+ENV PKG_CONFIG_PATH $TINYB_INSTALL_DIR/lib/pkgconfig/:$PKG_CONFIG_PATH
+ENV LD_LIBRARY_PATH $TINYB_INSTALL_DIR/lib/:$LD_LIBRARY_PATH
 
 # Set Workdir
 ARG UPM_SRC_DIR=/usr/src/app
