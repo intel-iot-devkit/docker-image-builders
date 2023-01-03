@@ -1,3 +1,7 @@
+# DISCONTINUATION OF PROJECT #
+This project will no longer be maintained by Intel.
+Intel has ceased development and contributions including, but not limited to, maintenance, bug fixes, new releases, or updates, to this project.
+Intel no longer accepts patches to this project.
 # Docker Image Builders for Intel IoT Devkit
 
 [![Build Status](https://travis-ci.org/intel-iot-devkit/docker-image-builders.svg?branch=master)](https://intel-iot-devkit/docker-image-builders)
